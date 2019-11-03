@@ -25,7 +25,6 @@ namespace caroubot
         }
         public async void Initialize()
         {
-            driver = new FirefoxDriver(driverPath);
             InitializeComponent();
             photos_combo.Items.Add(1);
             photos_combo.Items.Add(2);
@@ -46,6 +45,11 @@ namespace caroubot
         }
         public async Task run(PostInfo pi)
         {
+            var profileManager = new FirefoxProfileManager();
+            FirefoxProfile myprofile = profileManager.GetProfile("default-release");
+            FirefoxOptions options = new FirefoxOptions();
+            options.Profile = myprofile;
+            driver = new FirefoxDriver(Application.StartupPath, options);
             driver.Url = ("https://sg.carousell.com/sell/");
             for (int i = 0; i < pi.NumberofPhotos; i++)
             {
@@ -55,12 +59,13 @@ namespace caroubot
                 click("//span[text()=\"Save\"]");
             }
             click("//button[text()=\"Next: Choose a category\"]");
-            fill("//input[@placeholder=\"Search for a category\"]", "Mobile");
-            click("//button[@class=\"el-_a el-m\"]");
+            fill("//input[@placeholder=\"Search for a category\"]", "Mobile Phones");
+            click("(//button[@class=\"el-_a el-m\"])[1]");
             //TITLE
             fill("//input[@placeholder=\"Name your listing\"]", pi.Title);
-            //BRAND
+            /*BRAND
             fill("//input[@placeholder=\"Brand of the Item\"]", pi.Brand);
+            */
             //CONDITION
             if (pi.Used)
             {
@@ -71,23 +76,25 @@ namespace caroubot
                 click("//label[@for=\"condition_0\"]");
             }
             //PRICE
-            fill("//input[@placeholder=\"0\"][@type=\"number\"][@placeholder=\"0\"]", pi.Price.ToString());
+            fill("//input[@placeholder=\"Price of your listing\"][@type=\"number\"]", pi.Price.ToString());
             //DESC
             fill("//textarea[@placeholder=\"Describe what you are selling and include any details a buyer might be interested in. People love items with stories!\"]", pi.Description);
             //WE DO NOT USE CAROUPAY
-            click("//label[@for=\"field_5caroupay\"]");
+            click("//label[@for=\"field_4caroupay\"]");
             //MULTIPLE
+            /*
             if (pi.MultipleUnits)
             {
-                click("//div[class=\"bW-c\"]");
+                click("//input[@for=\"field_7multi_quantities\"]");
             }
+            */
             if (!pi.Delivery)
             {
-                click("//label[@for=\"field_11mailing\"]");
+                click("//label[@for=\"field_10mailing\"]");
             }
             if (pi.MeetUp)
             {
-                click("//label[@for=\"field_9meetup\"]");
+                click("//label[@for=\"field_8meetup\"]");
                 //may error out if place does not exist
                 try
                 {
@@ -150,16 +157,23 @@ namespace caroubot
 
         private async void POST_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(title_box.Text) || string.IsNullOrEmpty(brand_box.Text) || string.IsNullOrEmpty(price_box.Text) ||
-               string.IsNullOrEmpty(location_box.Text) || string.IsNullOrEmpty(desc_box.Text))
+            try
             {
-                MessageBox.Show("ONE OR MORE FIELDS ARE EMPTY, CANNOT CONTINUE!", "well.. shit", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (string.IsNullOrEmpty(title_box.Text) || string.IsNullOrEmpty(brand_box.Text) || string.IsNullOrEmpty(price_box.Text) ||
+                   string.IsNullOrEmpty(location_box.Text) || string.IsNullOrEmpty(desc_box.Text))
+                {
+                    MessageBox.Show("ONE OR MORE FIELDS ARE EMPTY, CANNOT CONTINUE!", "well.. shit", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    PostInfo postinfo = new PostInfo(photos_combo.SelectedIndex + 1, title_box.Text, brand_box.Text, desc_box.Text, used_check.Checked,
+                        Int32.Parse(price_box.Text), multiple_check.Checked, meetup_check.Checked, delivery_check.Checked, location_box.Text);
+                    await run(postinfo);
+                }
             }
-            else
+            catch
             {
-                PostInfo postinfo = new PostInfo(photos_combo.SelectedIndex + 1, title_box.Text, brand_box.Text, desc_box.Text, used_check.Checked,
-                    Int32.Parse(price_box.Text), multiple_check.Checked, meetup_check.Checked, delivery_check.Checked, location_box.Text);
-                await run(postinfo);
+                MessageBox.Show("An Error Has Occured", "well.. shit", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
