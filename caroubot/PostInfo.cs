@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace caroubot
 {
-    class PostInfo
+    public class PostInfo
     {
-        short NumberofPhotos { get; set; }
-        string Title { get; set; }
-        string Brand { get; set; }
+        public int NumberofPhotos { get; set; }
+        public string Title { get; set; }
+        public string Brand { get; set; }
         //should be a link to a desciption file.
-        string Description { get; set; }
-        bool Used { get; set; }
-        int Price { get; set; }
-        bool MultipleUnits { get; set; }
-        bool MeetUp { get; set; }
-        bool Delivery { get; set; }
-        string Location { get; set; }
-        public PostInfo(short numphotos, string title, string brand, string desc, bool used, int price, bool multiple, bool meetup, bool delivery, string location)
+        public string Description { get; set; }
+        public bool Used { get; set; }
+        public int Price { get; set; }
+        public bool MultipleUnits { get; set; }
+        public bool MeetUp { get; set; }
+        public bool Delivery { get; set; }
+        public string Location { get; set; }
+        public PostInfo(int numphotos, string title, string brand, string desc, bool used, int price, bool multiple, bool meetup, bool delivery, string location)
         {
             NumberofPhotos = numphotos;
             Title = title;
