@@ -14,7 +14,20 @@ namespace caroubot
     {
         public MainForm()
         {
+            Initialize();
+        }
+        public async void Initialize()
+        {
             InitializeComponent();
+            photos_combo.Items.Add(1);
+            photos_combo.Items.Add(2);
+            photos_combo.Items.Add(3);
+            photos_combo.Items.Add(4);
+        }
+
+        private void save_button_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

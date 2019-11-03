@@ -39,7 +39,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.desc_box = new System.Windows.Forms.RichTextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.photos_combo = new System.Windows.Forms.ComboBox();
             this.title_box = new System.Windows.Forms.TextBox();
             this.brand_box = new System.Windows.Forms.TextBox();
             this.used_check = new System.Windows.Forms.CheckBox();
@@ -152,13 +152,13 @@
             this.desc_box.TabIndex = 10;
             this.desc_box.Text = "";
             // 
-            // comboBox1
+            // photos_combo
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(117, 14);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 11;
+            this.photos_combo.FormattingEnabled = true;
+            this.photos_combo.Location = new System.Drawing.Point(117, 14);
+            this.photos_combo.Name = "photos_combo";
+            this.photos_combo.Size = new System.Drawing.Size(121, 21);
+            this.photos_combo.TabIndex = 11;
             // 
             // title_box
             // 
@@ -232,6 +232,7 @@
             this.save_button.TabIndex = 20;
             this.save_button.Text = "Save";
             this.save_button.UseVisualStyleBackColor = true;
+            this.save_button.Click += new System.EventHandler(this.save_button_Click);
             // 
             // POST
             // 
@@ -277,7 +278,7 @@
             this.Controls.Add(this.used_check);
             this.Controls.Add(this.brand_box);
             this.Controls.Add(this.title_box);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.photos_combo);
             this.Controls.Add(this.desc_box);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
@@ -309,7 +310,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.RichTextBox desc_box;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox photos_combo;
         private System.Windows.Forms.TextBox title_box;
         private System.Windows.Forms.TextBox brand_box;
         private System.Windows.Forms.CheckBox used_check;
