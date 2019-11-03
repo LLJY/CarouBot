@@ -48,8 +48,10 @@
             this.delivery_check = new System.Windows.Forms.CheckBox();
             this.price_box = new System.Windows.Forms.TextBox();
             this.location_box = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.save_button = new System.Windows.Forms.Button();
             this.POST = new System.Windows.Forms.Button();
+            this.load_button = new System.Windows.Forms.Button();
+            this.post_multiple = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -69,7 +71,6 @@
             this.label2.Size = new System.Drawing.Size(30, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "Title:";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label3
             // 
@@ -142,7 +143,6 @@
             this.label10.Size = new System.Drawing.Size(63, 13);
             this.label10.TabIndex = 9;
             this.label10.Text = "Description:";
-            this.label10.Click += new System.EventHandler(this.label10_Click);
             // 
             // desc_box
             // 
@@ -191,7 +191,6 @@
             this.multiple_check.Size = new System.Drawing.Size(15, 14);
             this.multiple_check.TabIndex = 15;
             this.multiple_check.UseVisualStyleBackColor = true;
-            this.multiple_check.CheckedChanged += new System.EventHandler(this.multiple_check_CheckedChanged);
             // 
             // meetup_check
             // 
@@ -225,31 +224,51 @@
             this.location_box.Size = new System.Drawing.Size(100, 20);
             this.location_box.TabIndex = 19;
             // 
-            // button1
+            // save_button
             // 
-            this.button1.Location = new System.Drawing.Point(548, 415);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 20;
-            this.button1.Text = "Save";
-            this.button1.UseVisualStyleBackColor = true;
+            this.save_button.Location = new System.Drawing.Point(383, 415);
+            this.save_button.Name = "save_button";
+            this.save_button.Size = new System.Drawing.Size(75, 23);
+            this.save_button.TabIndex = 20;
+            this.save_button.Text = "Save";
+            this.save_button.UseVisualStyleBackColor = true;
             // 
             // POST
             // 
-            this.POST.Location = new System.Drawing.Point(629, 349);
+            this.POST.Location = new System.Drawing.Point(464, 349);
             this.POST.Name = "POST";
             this.POST.Size = new System.Drawing.Size(159, 89);
             this.POST.TabIndex = 21;
             this.POST.Text = "POST";
             this.POST.UseVisualStyleBackColor = true;
             // 
+            // load_button
+            // 
+            this.load_button.Location = new System.Drawing.Point(302, 415);
+            this.load_button.Name = "load_button";
+            this.load_button.Size = new System.Drawing.Size(75, 23);
+            this.load_button.TabIndex = 22;
+            this.load_button.Text = "Load";
+            this.load_button.UseVisualStyleBackColor = true;
+            // 
+            // post_multiple
+            // 
+            this.post_multiple.Location = new System.Drawing.Point(629, 349);
+            this.post_multiple.Name = "post_multiple";
+            this.post_multiple.Size = new System.Drawing.Size(159, 89);
+            this.post_multiple.TabIndex = 23;
+            this.post_multiple.Text = "POST MULTIPLE";
+            this.post_multiple.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.post_multiple);
+            this.Controls.Add(this.load_button);
             this.Controls.Add(this.POST);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.save_button);
             this.Controls.Add(this.location_box);
             this.Controls.Add(this.price_box);
             this.Controls.Add(this.delivery_check);
@@ -272,7 +291,6 @@
             this.Controls.Add(this.label1);
             this.Name = "MainForm";
             this.Text = "CarouBot";
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -300,8 +318,10 @@
         private System.Windows.Forms.CheckBox delivery_check;
         private System.Windows.Forms.TextBox price_box;
         private System.Windows.Forms.TextBox location_box;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button save_button;
         private System.Windows.Forms.Button POST;
+        private System.Windows.Forms.Button load_button;
+        private System.Windows.Forms.Button post_multiple;
     }
 }
 
