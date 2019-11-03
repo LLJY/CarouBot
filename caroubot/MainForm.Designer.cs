@@ -251,6 +251,7 @@
             this.load_button.TabIndex = 22;
             this.load_button.Text = "Load";
             this.load_button.UseVisualStyleBackColor = true;
+            this.load_button.Click += new System.EventHandler(this.load_button_Click);
             // 
             // post_multiple
             // 

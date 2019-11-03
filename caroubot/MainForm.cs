@@ -49,5 +49,28 @@ namespace caroubot
                 }
             }
         }
+
+        private void load_button_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openfile = new OpenFileDialog();
+            openfile.Filter = "json files (*.json)|*.json";
+            openfile.FilterIndex = 1;
+            openfile.RestoreDirectory = true;
+            if (openfile.ShowDialog() == DialogResult.OK)
+            {
+                string serialized = File.ReadAllText(openfile.FileName);
+                PostInfo postinfo = JsonConvert.DeserializeObject<PostInfo>(serialized);
+                photos_combo.SelectedIndex = postinfo.NumberofPhotos - 1;
+                title_box.Text = postinfo.Title;
+                brand_box.Text = postinfo.Brand;
+                desc_box.Text = postinfo.Description;
+                used_check.Checked = postinfo.Used;
+                price_box.Text = postinfo.Price.ToString();
+                multiple_check.Checked = postinfo.MultipleUnits;
+                meetup_check.Checked = postinfo.MeetUp;
+                delivery_check.Checked = postinfo.Delivery;
+                location_box.Text = postinfo.Location;
+            }
+        }
     }
 }
