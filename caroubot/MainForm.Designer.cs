@@ -242,6 +242,7 @@
             this.POST.TabIndex = 21;
             this.POST.Text = "POST";
             this.POST.UseVisualStyleBackColor = true;
+            this.POST.Click += new System.EventHandler(this.POST_Click);
             // 
             // load_button
             // 

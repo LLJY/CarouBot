@@ -9,22 +9,97 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Support.UI;
 
 namespace caroubot
 {
     public partial class MainForm : Form
     {
+        string driverPath = Application.StartupPath + @"\geckodriver.exe";
+        IWebDriver driver;
         public MainForm()
         {
             Initialize();
         }
         public async void Initialize()
         {
+            driver = new FirefoxDriver(driverPath);
             InitializeComponent();
             photos_combo.Items.Add(1);
             photos_combo.Items.Add(2);
             photos_combo.Items.Add(3);
             photos_combo.Items.Add(4);
+        }
+        public async void click(string xpath)
+        {
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+            IWebElement element = wait.Until(ExpectedConditions.ElementExists(By.XPath(xpath)));
+            element.Click();
+        }
+        public async void fill(string xpath, string text)
+        {
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+            IWebElement element = wait.Until(ExpectedConditions.ElementExists(By.XPath(xpath)));
+            element.SendKeys(text);
+        }
+        public async Task run(PostInfo pi)
+        {
+            driver.Url = ("https://sg.carousell.com/sell/");
+            for (int i = 0; i < pi.NumberofPhotos; i++)
+            {
+                string photoPath = Application.StartupPath + $@"\photos\photo{i}.jpg";
+                //post photo
+                driver.FindElement(By.Id($"photo{i}")).SendKeys(photoPath);
+                click("//span[text()=\"Save\"]");
+            }
+            click("//button[text()=\"Next: Choose a category\"]");
+            fill("//input[@placeholder=\"Search for a category\"]", "Mobile");
+            click("//button[@class=\"el-_a el-m\"]");
+            //TITLE
+            fill("//input[@placeholder=\"Name your listing\"]", pi.Title);
+            //BRAND
+            fill("//input[@placeholder=\"Brand of the Item\"]", pi.Brand);
+            //CONDITION
+            if (pi.Used)
+            {
+                click("//label[@for=\"condition_1\"]");
+            }
+            else
+            {
+                click("//label[@for=\"condition_0\"]");
+            }
+            //PRICE
+            fill("//input[@placeholder=\"0\"][@type=\"number\"][@placeholder=\"0\"]", pi.Price.ToString());
+            //DESC
+            fill("//textarea[@placeholder=\"Describe what you are selling and include any details a buyer might be interested in. People love items with stories!\"]", pi.Description);
+            //WE DO NOT USE CAROUPAY
+            click("//label[@for=\"field_5caroupay\"]");
+            //MULTIPLE
+            if (pi.MultipleUnits)
+            {
+                click("//div[class=\"bW-c\"]");
+            }
+            if (!pi.Delivery)
+            {
+                click("//label[@for=\"field_11mailing\"]");
+            }
+            if (pi.MeetUp)
+            {
+                click("//label[@for=\"field_9meetup\"]");
+                //may error out if place does not exist
+                try
+                {
+                    fill("//input[@placeholder=\"Search for a location\"]", pi.Location);
+                    click($"//div[text()=\"{pi.Location}\"]");
+                    click("//span[text()=\"Save\"]");
+                }
+                catch
+                {
+                    MessageBox.Show("Location does not exist!!", "well.. shit", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         private void save_button_Click(object sender, EventArgs e)
@@ -70,6 +145,21 @@ namespace caroubot
                 meetup_check.Checked = postinfo.MeetUp;
                 delivery_check.Checked = postinfo.Delivery;
                 location_box.Text = postinfo.Location;
+            }
+        }
+
+        private async void POST_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(title_box.Text) || string.IsNullOrEmpty(brand_box.Text) || string.IsNullOrEmpty(price_box.Text) ||
+               string.IsNullOrEmpty(location_box.Text) || string.IsNullOrEmpty(desc_box.Text))
+            {
+                MessageBox.Show("ONE OR MORE FIELDS ARE EMPTY, CANNOT CONTINUE!", "well.. shit", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                PostInfo postinfo = new PostInfo(photos_combo.SelectedIndex + 1, title_box.Text, brand_box.Text, desc_box.Text, used_check.Checked,
+                    Int32.Parse(price_box.Text), multiple_check.Checked, meetup_check.Checked, delivery_check.Checked, location_box.Text);
+                await run(postinfo);
             }
         }
     }
