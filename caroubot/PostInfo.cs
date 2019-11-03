@@ -19,6 +19,19 @@ namespace caroubot
         bool MeetUp { get; set; }
         bool Delivery { get; set; }
         string Location { get; set; }
+        public PostInfo(short numphotos, string title, string brand, string desc, bool used, int price, bool multiple, bool meetup, bool delivery, string location)
+        {
+            NumberofPhotos = numphotos;
+            Title = title;
+            Brand = brand;
+            Description = desc;
+            Used = used;
+            Price = price;
+            MultipleUnits = multiple;
+            MeetUp = meetup;
+            Delivery = delivery;
+            Location = location;
+        }
 
     }
 }
